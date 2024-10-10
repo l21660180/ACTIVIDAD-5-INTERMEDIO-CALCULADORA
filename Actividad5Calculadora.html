@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Básica</title>
+    <style>
+        /* Estilo global para eliminar márgenes y asegurar consistencia */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos del cuerpo del documento */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f08ed9; /* Fondo rosa pastel */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Contenedor principal de la calculadora */
+        .calculator-container {
+            text-align: center; /* Centra el título y la calculadora */
+        }
+
+        /* Estilos del título de la calculadora */
+        h1 {
+            font-size: 1.8em; /* Tamaño de la fuente del título */
+            margin-bottom: 20px; /* Espaciado entre el título y la calculadora */
+            color: #333; /* Color gris oscuro del título */
+        }
+
+        /* Estilos de la calculadora */
+        .calculator {
+            background-color: #d15e90; /* Fondo rosado claro */
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+            padding: 20px;
+            width: 280px;
+        }
+
+        /* Estilo de la pantalla (display) */
+        .display {
+            width: 100%;
+            height: 50px;
+            font-size: 1.8em;
+            text-align: right; /* Los números se alinean a la derecha */
+            padding: 10px;
+            margin-bottom: 15px; /* Espacio debajo del display */
+            border: 2px solid #ccc; /* Borde gris claro */
+            border-radius: 10px;
+            background-color: #f0f0f0;
+        }
+
+        /* Estilos para el contenedor de botones */
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Cuatro columnas iguales */
+            gap: 10px; /* Espaciado entre los botones */
+        }
+
+        /* Estilos comunes para los botones */
+        .btn {
+            padding: 15px; /* Tamaño de los botones */
+            font-size: 1.2em;
+            background-color: #c54696;
+            color: #000; /* Texto negro */
+            border: none;
+            border-radius: 50%; /* Botones redondos */
+            cursor: pointer; /* Cambia el cursor a mano */
+            transition: background-color 0.3s ease; /* Transición suave */
+        }
+
+        /* Diferentes colores para los botones */
+        .btn.orange {
+            background-color: #f9ad81; /* Botón naranja */
+        }
+
+        .btn.green {
+            background-color: #b5e7a0; /* Botón verde */
+        }
+
+        .btn.yellow {
+            background-color: #fff176; /* Botón amarillo */
+        }
+
+        .btn.purple {
+            background-color: #c9a9e3; /* Botón morado */
+        }
+
+        .btn.blue {
+            background-color: #aedff7; /* Botón azul */
+        }
+
+        /* Botón de igual más largo que ocupa dos columnas */
+        .btn.equal {
+            grid-column: span 2; /* Ocupa dos columnas */
+            background-color: #ff8c94; /* Color específico para el botón de igual */
+        }
+
+        /* Estilo para que el botón igual quede alineado a la derecha */
+        .buttons .equal {
+            grid-column: span 1; /* Alinea el botón de igual a una sola columna */
+            justify-self: stretch; /* Se ajusta al ancho completo disponible */
+        }
+
+        /* Efecto hover en los botones */
+        .btn:hover {
+            opacity: 0.9; /* Efecto de opacidad en el hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenedor principal de la calculadora -->
+    <div class="calculator-container">
+        <!-- Título de la calculadora -->
+        <h1>Calculadora Básica</h1>
+
+        <!-- Calculadora en sí misma -->
+        <div class="calculator">
+            <!-- Pantalla de la calculadora -->
+            <input type="text" id="display" class="display" disabled>
+
+            <!-- Contenedor de botones -->
+            <div class="buttons">
+                <!-- Fila 1 -->
+                <button class="btn green" onclick="clearDisplay()">AC</button> <!-- Botón de limpiar -->
+                <button class="btn orange" onclick="appendToDisplay('%')">%</button> <!-- Botón de porcentaje -->
+                <button class="btn yellow" onclick="appendToDisplay('/')">/</button> <!-- Botón de división -->
+                <button class="btn purple" onclick="appendToDisplay('*')">*</button> <!-- Botón de multiplicación -->
+
+                <!-- Fila 2 -->
+                <button class="btn blue" onclick="appendToDisplay('7')">7</button> <!-- Número 7 -->
+                <button class="btn blue" onclick="appendToDisplay('8')">8</button> <!-- Número 8 -->
+                <button class="btn blue" onclick="appendToDisplay('9')">9</button> <!-- Número 9 -->
+                <button class="btn purple" onclick="appendToDisplay('-')">-</button> <!-- Botón de resta -->
+
+                <!-- Fila 3 -->
+                <button class="btn blue" onclick="appendToDisplay('4')">4</button> <!-- Número 4 -->
+                <button class="btn blue" onclick="appendToDisplay('5')">5</button> <!-- Número 5 -->
+                <button class="btn blue" onclick="appendToDisplay('6')">6</button> <!-- Número 6 -->
+                <button class="btn purple" onclick="appendToDisplay('+')">+</button> <!-- Botón de suma -->
+
+                <!-- Fila 4 -->
+                <button class="btn blue" onclick="appendToDisplay('1')">1</button> <!-- Número 1 -->
+                <button class="btn blue" onclick="appendToDisplay('2')">2</button> <!-- Número 2 -->
+                <button class="btn blue" onclick="appendToDisplay('3')">3</button> <!-- Número 3 -->
+                <button class="btn equal" onclick="calculateResult()">=</button> <!-- Botón de igual, colocado al final derecho -->
+
+                <!-- Fila 5 -->
+                <button class="btn blue" onclick="appendToDisplay('0')">0</button> <!-- Número 0 -->
+                <button class="btn blue" onclick="appendToDisplay('00')">00</button> <!-- Doble cero -->
+                <button class="btn blue" onclick="appendToDisplay('.')">.</button> <!-- Punto decimal -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función que agrega el valor de un botón al display
+        function appendToDisplay(value) {
+            document.getElementById('display').value += value; // Añade el valor al contenido actual del display
+        }
+
+        // Función que limpia el display (resetea a vacío)
+        function clearDisplay() {
+            document.getElementById('display').value = ''; // Borra todo el contenido del display
+        }
+
+        // Función que evalúa y calcula el resultado de la expresión en la pantalla
+        function calculateResult() {
+            try {
+                // Evalúa la expresión aritmética ingresada en el display
+                const result = eval(document.getElementById('display').value);
+                document.getElementById('display').value = result; // Muestra el resultado
+            } catch (error) {
+                // Si ocurre un error (expresión inválida), muestra 'Error'
+                document.getElementById('display').value = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>
